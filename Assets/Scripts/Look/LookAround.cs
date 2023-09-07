@@ -7,10 +7,6 @@ public class LookAround : MonoBehaviour
     private float mouseSensitivity = 100;
     private float xRotation;
 
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-    }
 
     void Update()
     {

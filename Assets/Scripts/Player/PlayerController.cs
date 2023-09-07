@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,13 +7,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundChecker;
     [SerializeField] private LayerMask groundMask;
 
-    private float speed = 12f;
+    WaitForSeconds waitForFiveSeconds = new WaitForSeconds(5);
+
+    private float speed = 10f;
     private float gravity = -9.81f * 2f;
     private Vector3 velocity;
 
     private float groundRadius = 0.5f;
     private bool isGrounded;
-    private float jumpHeight = 3f;
+
+    private float score;
+    public float Score => score;
+
+    private float health = 100;
+    public float Health => health;
+
+    private void Start()
+    {
+        StartCoroutine(DecreaseHealth());
+    }
 
     void Update()
     {
@@ -23,11 +36,6 @@ public class PlayerController : MonoBehaviour
             velocity.y = -2;
         }
 
-        if (Input.GetButtonDown("Jump") && isGrounded) 
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
@@ -35,5 +43,22 @@ public class PlayerController : MonoBehaviour
         characterController.Move(move * speed * Time.deltaTime);
         velocity.y += gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
+    }
+
+    public void IncrementScore()
+    {
+        score++;
+    }
+
+    private IEnumerator DecreaseHealth()
+    {
+        while (true)
+        {
+            yield return waitForFiveSeconds;
+            if(health > 0)
+            {
+                health -= 10;
+            }
+        }
     }
 }

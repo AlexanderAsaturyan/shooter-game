@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class TargetController : MonoBehaviour
 {
-    private float health = 50;
+    [SerializeField] private PlayerController playerController;
+
+    private float health = 100;
 
     public void TakeDamage(float amount)
     {
@@ -10,6 +12,7 @@ public class TargetController : MonoBehaviour
         if (health <= 0f)
         {
             Die();
+            playerController.IncrementScore();
         }
     }
 
